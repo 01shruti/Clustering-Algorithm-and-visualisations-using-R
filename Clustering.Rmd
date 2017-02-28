@@ -37,7 +37,11 @@ head(round(df.scaled, 2))
 install.packages("cluster")
 
 #For visualization
-install.packages("factoextra")
+if(!require(devtools))
+  install.packages("devtools")
+devtools::install_github("kassambara/factoextra")
+
+#install.packages("factoextra")
 
 library(cluster)
 library(factoextra)
@@ -116,6 +120,32 @@ pearson.dist <- get_dist(USArrests, stand = TRUE, method = "pearson")
 #for computing distance matrix between rows of a data mtrix 
 
 fviz_dist(pearson.dist, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+
+```
+
+```{r}
+#kmeans(x, centers, iter.max = 10, nstart = 1)
+
+#x: numeric matrix, numeric data frame or a numeric vector
+#centers: Possible values are the number of clusters (k) or a set of initial (distinct) cluster centers. If a number, a random set of (distinct) rows in x is chosen as the initial centers.
+#iter.max: The maximum number of iterations allowed. Default value is 10.
+#nstart: The number of random starting partitions when centers is a number. Trying nstart > 1 is often recommended.
+
+#kmeans() function returns a list including:
+
+#cluster: A vector of integers (from 1:k) indicating the cluster to which each point is allocated
+#centers: A matrix of cluster centers (cluster means)
+#totss: The total sum of squares (TSS), i.e ∑(xi−x¯)2∑(xi−x¯)2. TSS measures the total variance in the data.
+#withinss: Vector of within-cluster sum of squares, one component per cluster
+#tot.withinss: Total within-cluster sum of squares, i.e. sum(withinss)sum(withinss)
+#betweenss: The between-cluster sum of squares, i.e. totss−tot.withinsstotss−tot.withinss
+#size: The number of observations in each cluster
+
+set.seed(123)
+df2 <- rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),
+             matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2))
+colnames(df2) <- c("x","y")
+head(df2)
 
 ```
 
