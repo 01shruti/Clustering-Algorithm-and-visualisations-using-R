@@ -230,11 +230,32 @@ library(factoextra)
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NlY29uZCBhcmd1bWVudCB0YWtlIHZhbHVlIHdoZXJlIHRvIGFwcGx5IHRoZSBmdW5jdGlvbiBcbiMxLiBmb3IgZnVuY3Rpb24gb24gcm93c1xuIzIuIGZvciBmdW5jdGlvbiBvbiBjb2x1bW5zXG5kZXNjX3N0YXRzIDwtIGRhdGEuZnJhbWUoXG4gIE1pbiA9IGFwcGx5KFVTQXJyZXN0cywgMiwgbWluKSxcbiAgTWF4ID0gYXBwbHkoVVNBcnJlc3RzLCAyLCBtYXgpLFxuICBNZWQgPSBhcHBseShVU0FycmVzdHMsIDIsIG1lZGlhbiksXG4gIFNEID0gYXBwbHkoVVNBcnJlc3RzLCAyLCBzZCksXG4gIE1lYW4gPSBhcHBseShVU0FycmVzdHMsIDIsIG1lYW4pXG4pXG5kZXNjX3N0YXRzIDwtIHJvdW5kKGRlc2Nfc3RhdHMsMSlcbmhlYWQoZGVzY19zdGF0cylcbmBgYCJ9 -->
+<pre class="r"><code>#second argument take value where to apply the function 
+#1. for function on rows
+#2. for function on columns
+desc_stats &lt;- data.frame(
+  Min = apply(USArrests, 2, min),
+  Max = apply(USArrests, 2, max),
+  Med = apply(USArrests, 2, median),
+  SD = apply(USArrests, 2, sd),
+  Mean = apply(USArrests, 2, mean)
+)
+desc_stats &lt;- round(desc_stats,1)
+head(desc_stats)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6NSwibnJvdyI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUJsMVJ6VXJEUUJDZTVxZTFBV3ZGazZBSTNodXc2dGtWaXA0Q3BmNVFiMjZUclFiamJ0Z2t0RWRmUTUvR0I5Q1RMK0RWbDZqdWI2Z1oyTXczTTkvOFpqS2FEb05wQUFBT3VHNExIRmRBenhHZkZualFsWG9KNE80STRJdlhrOUd6bjFjcGIramlCYVFnQkZydkh5dXhQSFEwVjRLcXZvN2Z2bXQ5Q1ZZMGIrOUR5aWVLdjNWOGJPcWU3S28rTlcvYjlMMytVbjNRd1BROTFQazE3MERQZ2NpZDVvL3ZOZS9VenZkdlFaL2laMUlJMEZkTGFxY2JwYlNHZUZsRGtoam9YSTBNOGlLQ2FhTm1sN05GdUY3WE00RjJWUEdFY0dOMXpvc0NWMWxwekkwYlBzTjB6SEpiZVlKejBwdzJ6bkJocTFwbmtPQVNoM011R2dwcjFVanBzTHhNR1JWSmp2MlA2OGt0M25Cc1ZWU09uZ3ppeDRvK0RZYXlnUXJydDJtMHQ0WjkzZEw1Ylp5eFRlaERTb21kUGNNemtobWpKMDZrTGhUbVBLWDJCSUh3Rm1ISlNteDVRY3d5NjFHN3dlb1BjaVpCMnJVQ0FBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Min"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Max"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Med"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SD"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Mean"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.8","2":"17.4","3":"7.2","4":"4.4","5":"7.8","_rn_":"Murder"},{"1":"45.0","2":"337.0","3":"159.0","4":"83.3","5":"170.8","_rn_":"Assault"},{"1":"32.0","2":"91.0","3":"66.0","4":"14.5","5":"65.5","_rn_":"UrbanPop"},{"1":"7.3","2":"46.0","3":"20.1","4":"9.4","5":"21.2","_rn_":"Rape"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[4]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNMdXN0ZXJpbmcgVW5zdXBlcnZpc2VkIE1hY2hpbmUgTGVhcm5pbmciDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCiNMb2FkIHRoZSBkYXRhDQpkYXRhKCJVU0FycmVzdHMiKQ0KbXlkYXRhIDwtIFVTQXJyZXN0cw0KDQojUmVtb3ZlIG1pc2luZyB2YWx1ZXMNCm15ZGF0YSA8LSBuYS5vbWl0KG15ZGF0YSkNCg0KI1NjYWxlIHRoZSB2YXJpYWJsZXMNCm15ZGF0YSA8LSBzY2FsZShteWRhdGEpDQoNCmhlYWQobXlkYXRhLCBuPTUpDQpgYGANCmBgYHtyfQ0KI0RhdGEgcHJlcGFyYXRpb24gZXhhbXBsZQ0KDQpzZXQuc2VlZCgxMjQpDQpzcyA8LSBzYW1wbGUoMTo1MCwxMCkNCmRmIDwtIFVTQXJyZXN0c1tzcywgXQ0KZGYgPC0gbmEub21pdChkZikNCmhlYWQoZGYsbj02KQ0KYGBgDQoNCg0KYGBge3J9DQojSW1wb3J0aW5nIHBhY2thZ2VzIGZvciBjbHVzdGVyaW5nDQoNCiNGb3IgY2x1c3RlcmluZw0KaW5zdGFsbC5wYWNrYWdlcygiY2x1c3RlciIpDQoNCiNGb3IgdmlzdWFsaXphdGlvbg0KaW5zdGFsbC5wYWNrYWdlcygiZmFjdG9leHRyYSIpDQoNCmxpYnJhcnkoY2x1c3RlcikNCmxpYnJhcnkoZmFjdG9leHRyYSkNCg0KYGBgDQoNCmBgYHtyfQ0KDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNMdXN0ZXJpbmcgVW5zdXBlcnZpc2VkIE1hY2hpbmUgTGVhcm5pbmciDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCiNMb2FkIHRoZSBkYXRhDQpkYXRhKCJVU0FycmVzdHMiKQ0KbXlkYXRhIDwtIFVTQXJyZXN0cw0KDQojUmVtb3ZlIG1pc2luZyB2YWx1ZXMNCm15ZGF0YSA8LSBuYS5vbWl0KG15ZGF0YSkNCg0KI1NjYWxlIHRoZSB2YXJpYWJsZXMNCm15ZGF0YSA8LSBzY2FsZShteWRhdGEpDQoNCmhlYWQobXlkYXRhLCBuPTUpDQpgYGANCmBgYHtyfQ0KI0RhdGEgcHJlcGFyYXRpb24gZXhhbXBsZQ0KDQpzZXQuc2VlZCgxMjQpDQpzcyA8LSBzYW1wbGUoMTo1MCwxMCkNCmRmIDwtIFVTQXJyZXN0c1tzcywgXQ0KZGYgPC0gbmEub21pdChkZikNCmhlYWQoZGYsbj02KQ0KYGBgDQoNCg0KYGBge3J9DQojSW1wb3J0aW5nIHBhY2thZ2VzIGZvciBjbHVzdGVyaW5nDQoNCiNGb3IgY2x1c3RlcmluZw0KaW5zdGFsbC5wYWNrYWdlcygiY2x1c3RlciIpDQoNCiNGb3IgdmlzdWFsaXphdGlvbg0KaW5zdGFsbC5wYWNrYWdlcygiZmFjdG9leHRyYSIpDQoNCmxpYnJhcnkoY2x1c3RlcikNCmxpYnJhcnkoZmFjdG9leHRyYSkNCg0KYGBgDQoNCmBgYHtyfQ0KI3NlY29uZCBhcmd1bWVudCB0YWtlIHZhbHVlIHdoZXJlIHRvIGFwcGx5IHRoZSBmdW5jdGlvbiANCiMxLiBmb3IgZnVuY3Rpb24gb24gcm93cw0KIzIuIGZvciBmdW5jdGlvbiBvbiBjb2x1bW5zDQoNCmRlc2Nfc3RhdHMgPC0gZGF0YS5mcmFtZSgNCiAgTWluID0gYXBwbHkoVVNBcnJlc3RzLCAyLCBtaW4pLA0KICBNYXggPSBhcHBseShVU0FycmVzdHMsIDIsIG1heCksDQogIE1lZCA9IGFwcGx5KFVTQXJyZXN0cywgMiwgbWVkaWFuKSwNCiAgU0QgPSBhcHBseShVU0FycmVzdHMsIDIsIHNkKSwNCiAgTWVhbiA9IGFwcGx5KFVTQXJyZXN0cywgMiwgbWVhbikNCikNCg0KZGVzY19zdGF0cyA8LSByb3VuZChkZXNjX3N0YXRzLDEpDQpoZWFkKGRlc2Nfc3RhdHMpDQpgYGANCg0K</div>
 
 
 

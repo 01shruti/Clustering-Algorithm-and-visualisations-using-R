@@ -42,6 +42,19 @@ library(factoextra)
 ```
 
 ```{r}
+#second argument take value where to apply the function 
+#1. for function on rows
+#2. for function on columns
 
+desc_stats <- data.frame(
+  Min = apply(USArrests, 2, min),
+  Max = apply(USArrests, 2, max),
+  Med = apply(USArrests, 2, median),
+  SD = apply(USArrests, 2, sd),
+  Mean = apply(USArrests, 2, mean)
+)
+
+desc_stats <- round(desc_stats,1)
+head(desc_stats)
 ```
 
