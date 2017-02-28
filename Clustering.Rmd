@@ -1,0 +1,19 @@
+---
+title: "CLustering Unsupervised Machine Learning"
+output: html_notebook
+---
+
+```{r}
+#Load the data
+data("USArrests")
+mydata <- USArrests
+
+#Remove mising values
+mydata <- na.omit(mydata)
+
+#Scale the variables
+mydata <- scale(mydata)
+
+head(mydata, n=5)
+```
+
