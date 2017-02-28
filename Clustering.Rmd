@@ -24,6 +24,9 @@ ss <- sample(1:50,10)
 df <- USArrests[ss, ]
 df <- na.omit(df)
 head(df,n=6)
+
+df.scaled <- scale(df)
+head(round(df.scaled, 2))
 ```
 
 
