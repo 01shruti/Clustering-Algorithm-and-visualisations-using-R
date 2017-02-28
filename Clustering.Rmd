@@ -110,3 +110,12 @@ plot(hclust(eucl, method = "ward.D2"))
 heatmap(as.matrix(eucl), symm = TRUE, distfun = function(x) as.dist(x))
 ```
 
+```{r}
+#Visualization ofdistance matrices using functions from factoextra
+pearson.dist <- get_dist(USArrests, stand = TRUE, method = "pearson")
+#for computing distance matrix between rows of a data mtrix 
+
+fviz_dist(pearson.dist, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+
+```
+
