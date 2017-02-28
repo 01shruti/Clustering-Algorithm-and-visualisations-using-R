@@ -42,6 +42,7 @@ install.packages("factoextra")
 library(cluster)
 library(factoextra)
 
+install.packages("corrplot")
 ```
 
 ```{r}
@@ -59,5 +60,53 @@ desc_stats <- data.frame(
 
 desc_stats <- round(desc_stats,1)
 head(desc_stats)
+```
+
+```{r}
+#Functions for computing distances
+
+#dist()#############################################################
+library(stats)
+eucl <- dist(df.scaled, method = "euclidean" )
+
+#method can be euclidean, manhattan, correlation etc
+round(as.matrix(eucl)[1:6,1:6],1)
+#t() used for transposing data
+
+#correlation based distance#########################################
+#Cor computes coefficient between variables but we need observations 
+#so using t() to transpose matrix
+
+print("Correlation method for distance measure")
+cor <- cor(t(df.scaled), method = "pearson")
+dist_cor <- as.dist(1 - cor)
+round(as.matrix(dist_cor)[1:6,1:6],1)
+
+#daisy() to compute dissimilarity matrices between observations 
+
+daisy(df.scaled, metric = c("euclidean", "manhattan", "gower"), stand = FALSE)
+
+#stand: if TRUE, then the measurements in df.scaled are standardized before calculating the dissimilarities. Measurements are standardized for each variable (column), by subtracting the variable’s mean value and dividing by the variable’s mean absolute deviation
+
+data("flower")
+head(flower)
+
+str(flower)
+
+daisy_dist <- as.matrix(daisy(flower))
+head(round(daisy_dist[1:6,1:6]),2)
+
+#visualizing distance matrices
+
+library(corrplot)
+corrplot(as.matrix(eucl), is.corr = FALSE, method = "color")
+
+corrplot(as.matrix(eucl), is.corr = FALSE, method = "color", order = "hclust", type = "upper")
+
+#hierarchial clustering dendrogram 
+plot(hclust(eucl, method = "ward.D2"))
+
+#Heatmap
+heatmap(as.matrix(eucl), symm = TRUE, distfun = function(x) as.dist(x))
 ```
 
