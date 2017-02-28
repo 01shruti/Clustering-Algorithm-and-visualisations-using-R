@@ -193,10 +193,162 @@ Arkansas   0.23234938 0.2308680 -1.0735927 -0.184916602
 California 0.27826823 1.2628144  1.7589234  2.067820292</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ltcG9ydGluZyBwYWNrYWdlcyBmb3IgY2x1c3RlcmluZ1xuI0ZvciBjbHVzdGVyaW5nXG5pbnN0YWxsLnBhY2thZ2VzKFwiY2x1c3RlclwiKVxuYGBgIn0= -->
+<pre class="r"><code>#Importing packages for clustering
+#For clustering
+install.packages(&quot;cluster&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSW5zdGFsbGluZyBwYWNrYWdlIGludG8g46S847ixRTovVXNlcnMvU2hydXRpL0RvY3VtZW50cy9SL3dpbi1saWJyYXJ5LzMuM+OkvOO4slxuKGFzIOOkvOO4sWxpYuOkvOO4siBpcyB1bnNwZWNpZmllZClcbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9jbHVzdGVyXzIuMC41LnppcCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vemlwJyBsZW5ndGggNTM4ODU1IGJ5dGVzICg1MjYgS0IpXG5kb3dubG9hZGVkIDUyNiBLQlxuIn0= -->
+<pre><code>Installing package into 㤼㸱E:/Users/Shruti/Documents/R/win-library/3.3㤼㸲
+(as 㤼㸱lib㤼㸲 is unspecified)
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/cluster_2.0.5.zip'
+Content type 'application/zip' length 538855 bytes (526 KB)
+downloaded 526 KB</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDigJhjbHVzdGVy4oCZIHN1Y2Nlc3NmdWxseSB1bnBhY2tlZCBhbmQgTUQ1IHN1bXMgY2hlY2tlZFxuXG5UaGUgZG93bmxvYWRlZCBiaW5hcnkgcGFja2FnZXMgYXJlIGluXG5cdEU6XFxVc2Vyc1xcU2hydXRpXFxBcHBEYXRhXFxMb2NhbFxcVGVtcFxcUnRtcENrTDJES1xcZG93bmxvYWRlZF9wYWNrYWdlc1xuIn0= -->
+<pre><code>package ‘cluster’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    E:\Users\Shruti\AppData\Local\Temp\RtmpCkL2DK\downloaded_packages</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZvciB2aXN1YWxpemF0aW9uXG5pbnN0YWxsLnBhY2thZ2VzKFwiZmFjdG9leHRyYVwiKVxuYGBgIn0= -->
+<pre class="r"><code>#For visualization
+install.packages(&quot;factoextra&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSW5zdGFsbGluZyBwYWNrYWdlIGludG8g46S847ixRTovVXNlcnMvU2hydXRpL0RvY3VtZW50cy9SL3dpbi1saWJyYXJ5LzMuM+OkvOO4slxuKGFzIOOkvOO4sWxpYuOkvOO4siBpcyB1bnNwZWNpZmllZClcbmFsc28gaW5zdGFsbGluZyB0aGUgZGVwZW5kZW5jaWVzIOOkvOO4sW1pbnFh46S847iyLCDjpLzjuLFubG9wdHLjpLzjuLIsIOOkvOO4sVJjcHBFaWdlbuOkvOO4siwg46S847ixbG1lNOOkvOO4siwg46S847ixU3BhcnNlTeOkvOO4siwg46S847ixTWF0cml4TW9kZWxz46S847iyLCDjpLzjuLFwYmtydGVzdOOkvOO4siwg46S847ixcXVhbnRyZWfjpLzjuLIsIOOkvOO4sURCSeOkvOO4siwg46S847ixY2Fy46S847iyLCDjpLzjuLFlbGxpcHNl46S847iyLCDjpLzjuLFmbGFzaENsdXN046S847iyLCDjpLzjuLFsZWFwc+OkvOO4siwg46S847ixZ2dzY2njpLzjuLIsIOOkvOO4sWRwbHly46S847iyLCDjpLzjuLFhYmluZOOkvOO4siwg46S847ixRmFjdG9NaW5lUuOkvOO4siwg46S847ixZ2dwdWJy46S847iyLCDjpLzjuLFnZ3JlcGVs46S847iyLCDjpLzjuLF0aWR5cuOkvOO4slxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvbWlucWFfMS4yLjQuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCA2MjQ2NzkgYnl0ZXMgKDYxMCBLQilcbmRvd25sb2FkZWQgNjEwIEtCXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9ubG9wdHJfMS4wLjQuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCAxMTcyOTAxIGJ5dGVzICgxLjEgTUIpXG5kb3dubG9hZGVkIDEuMSBNQlxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvUmNwcEVpZ2VuXzAuMy4yLjkuMC56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDIxMTY0NDkgYnl0ZXMgKDIuMCBNQilcbmRvd25sb2FkZWQgMi4wIE1CXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9sbWU0XzEuMS0xMi56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDQ3Njk1ODQgYnl0ZXMgKDQuNSBNQilcbmRvd25sb2FkZWQgNC41IE1CXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9TcGFyc2VNXzEuNzQuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCA5MzE4MDYgYnl0ZXMgKDkwOSBLQilcbmRvd25sb2FkZWQgOTA5IEtCXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9NYXRyaXhNb2RlbHNfMC40LTEuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCAxOTYxNjIgYnl0ZXMgKDE5MSBLQilcbmRvd25sb2FkZWQgMTkxIEtCXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9wYmtydGVzdF8wLjQtNi56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDIxMzE5NyBieXRlcyAoMjA4IEtCKVxuZG93bmxvYWRlZCAyMDggS0JcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL3F1YW50cmVnXzUuMjkuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCAyMjA2NjgxIGJ5dGVzICgyLjEgTUIpXG5kb3dubG9hZGVkIDIuMSBNQlxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvREJJXzAuNS0xLnppcCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vemlwJyBsZW5ndGggMzY0MzYyIGJ5dGVzICgzNTUgS0IpXG5kb3dubG9hZGVkIDM1NSBLQlxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvY2FyXzIuMS00LnppcCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vemlwJyBsZW5ndGggMTQ4MzgyMCBieXRlcyAoMS40IE1CKVxuZG93bmxvYWRlZCAxLjQgTUJcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL2VsbGlwc2VfMC4zLTguemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCA0ODc3OSBieXRlcyAoNDcgS0IpXG5kb3dubG9hZGVkIDQ3IEtCXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9mbGFzaENsdXN0XzEuMDEtMi56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDM1MDMzIGJ5dGVzICgzNCBLQilcbmRvd25sb2FkZWQgMzQgS0JcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL2xlYXBzXzMuMC56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDMyODQ4OSBieXRlcyAoMzIwIEtCKVxuZG93bmxvYWRlZCAzMjAgS0JcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL2dnc2NpXzIuMC56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDI1MDk3NzEgYnl0ZXMgKDIuNCBNQilcbmRvd25sb2FkZWQgMi40IE1CXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9kcGx5cl8wLjUuMC56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDI1NTc4ODAgYnl0ZXMgKDIuNCBNQilcbmRvd25sb2FkZWQgMi40IE1CXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9hYmluZF8xLjQtNS56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDQwMTU3IGJ5dGVzICgzOSBLQilcbmRvd25sb2FkZWQgMzkgS0JcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL0ZhY3RvTWluZVJfMS4zNS56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDM1NDc1ODYgYnl0ZXMgKDMuNCBNQilcbmRvd25sb2FkZWQgMy40IE1CXG5cbnRyeWluZyBVUkwgJ2h0dHBzOi8vY3Jhbi5yc3R1ZGlvLmNvbS9iaW4vd2luZG93cy9jb250cmliLzMuMy9nZ3B1YnJfMC4xLjEuemlwJ1xuQ29udGVudCB0eXBlICdhcHBsaWNhdGlvbi96aXAnIGxlbmd0aCAxMDgxMTI5IGJ5dGVzICgxLjAgTUIpXG5kb3dubG9hZGVkIDEuMCBNQlxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvZ2dyZXBlbF8wLjYuNS56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDg5ODgyNiBieXRlcyAoODc3IEtCKVxuZG93bmxvYWRlZCA4NzcgS0JcblxudHJ5aW5nIFVSTCAnaHR0cHM6Ly9jcmFuLnJzdHVkaW8uY29tL2Jpbi93aW5kb3dzL2NvbnRyaWIvMy4zL3RpZHlyXzAuNi4xLnppcCdcbkNvbnRlbnQgdHlwZSAnYXBwbGljYXRpb24vemlwJyBsZW5ndGggODYwODE5IGJ5dGVzICg4NDAgS0IpXG5kb3dubG9hZGVkIDg0MCBLQlxuXG50cnlpbmcgVVJMICdodHRwczovL2NyYW4ucnN0dWRpby5jb20vYmluL3dpbmRvd3MvY29udHJpYi8zLjMvZmFjdG9leHRyYV8xLjAuNC56aXAnXG5Db250ZW50IHR5cGUgJ2FwcGxpY2F0aW9uL3ppcCcgbGVuZ3RoIDI1NDA1NSBieXRlcyAoMjQ4IEtCKVxuZG93bmxvYWRlZCAyNDggS0JcbiJ9 -->
+<pre><code>Installing package into 㤼㸱E:/Users/Shruti/Documents/R/win-library/3.3㤼㸲
+(as 㤼㸱lib㤼㸲 is unspecified)
+also installing the dependencies 㤼㸱minqa㤼㸲, 㤼㸱nloptr㤼㸲, 㤼㸱RcppEigen㤼㸲, 㤼㸱lme4㤼㸲, 㤼㸱SparseM㤼㸲, 㤼㸱MatrixModels㤼㸲, 㤼㸱pbkrtest㤼㸲, 㤼㸱quantreg㤼㸲, 㤼㸱DBI㤼㸲, 㤼㸱car㤼㸲, 㤼㸱ellipse㤼㸲, 㤼㸱flashClust㤼㸲, 㤼㸱leaps㤼㸲, 㤼㸱ggsci㤼㸲, 㤼㸱dplyr㤼㸲, 㤼㸱abind㤼㸲, 㤼㸱FactoMineR㤼㸲, 㤼㸱ggpubr㤼㸲, 㤼㸱ggrepel㤼㸲, 㤼㸱tidyr㤼㸲
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/minqa_1.2.4.zip'
+Content type 'application/zip' length 624679 bytes (610 KB)
+downloaded 610 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/nloptr_1.0.4.zip'
+Content type 'application/zip' length 1172901 bytes (1.1 MB)
+downloaded 1.1 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/RcppEigen_0.3.2.9.0.zip'
+Content type 'application/zip' length 2116449 bytes (2.0 MB)
+downloaded 2.0 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/lme4_1.1-12.zip'
+Content type 'application/zip' length 4769584 bytes (4.5 MB)
+downloaded 4.5 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/SparseM_1.74.zip'
+Content type 'application/zip' length 931806 bytes (909 KB)
+downloaded 909 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/MatrixModels_0.4-1.zip'
+Content type 'application/zip' length 196162 bytes (191 KB)
+downloaded 191 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/pbkrtest_0.4-6.zip'
+Content type 'application/zip' length 213197 bytes (208 KB)
+downloaded 208 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/quantreg_5.29.zip'
+Content type 'application/zip' length 2206681 bytes (2.1 MB)
+downloaded 2.1 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/DBI_0.5-1.zip'
+Content type 'application/zip' length 364362 bytes (355 KB)
+downloaded 355 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/car_2.1-4.zip'
+Content type 'application/zip' length 1483820 bytes (1.4 MB)
+downloaded 1.4 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/ellipse_0.3-8.zip'
+Content type 'application/zip' length 48779 bytes (47 KB)
+downloaded 47 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/flashClust_1.01-2.zip'
+Content type 'application/zip' length 35033 bytes (34 KB)
+downloaded 34 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/leaps_3.0.zip'
+Content type 'application/zip' length 328489 bytes (320 KB)
+downloaded 320 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/ggsci_2.0.zip'
+Content type 'application/zip' length 2509771 bytes (2.4 MB)
+downloaded 2.4 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/dplyr_0.5.0.zip'
+Content type 'application/zip' length 2557880 bytes (2.4 MB)
+downloaded 2.4 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/abind_1.4-5.zip'
+Content type 'application/zip' length 40157 bytes (39 KB)
+downloaded 39 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/FactoMineR_1.35.zip'
+Content type 'application/zip' length 3547586 bytes (3.4 MB)
+downloaded 3.4 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/ggpubr_0.1.1.zip'
+Content type 'application/zip' length 1081129 bytes (1.0 MB)
+downloaded 1.0 MB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/ggrepel_0.6.5.zip'
+Content type 'application/zip' length 898826 bytes (877 KB)
+downloaded 877 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/tidyr_0.6.1.zip'
+Content type 'application/zip' length 860819 bytes (840 KB)
+downloaded 840 KB
+
+trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.3/factoextra_1.0.4.zip'
+Content type 'application/zip' length 254055 bytes (248 KB)
+downloaded 248 KB</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDigJhtaW5xYeKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYbmxvcHRy4oCZIHN1Y2Nlc3NmdWxseSB1bnBhY2tlZCBhbmQgTUQ1IHN1bXMgY2hlY2tlZFxucGFja2FnZSDigJhSY3BwRWlnZW7igJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmGxtZTTigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmFNwYXJzZU3igJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmE1hdHJpeE1vZGVsc+KAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYcGJrcnRlc3TigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmHF1YW50cmVn4oCZIHN1Y2Nlc3NmdWxseSB1bnBhY2tlZCBhbmQgTUQ1IHN1bXMgY2hlY2tlZFxucGFja2FnZSDigJhEQknigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmGNhcuKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYZWxsaXBzZeKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYZmxhc2hDbHVzdOKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYbGVhcHPigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmGdnc2Np4oCZIHN1Y2Nlc3NmdWxseSB1bnBhY2tlZCBhbmQgTUQ1IHN1bXMgY2hlY2tlZFxucGFja2FnZSDigJhkcGx5cuKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYYWJpbmTigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmEZhY3RvTWluZVLigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmGdncHVicuKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYZ2dyZXBlbOKAmSBzdWNjZXNzZnVsbHkgdW5wYWNrZWQgYW5kIE1ENSBzdW1zIGNoZWNrZWRcbnBhY2thZ2Ug4oCYdGlkeXLigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5wYWNrYWdlIOKAmGZhY3RvZXh0cmHigJkgc3VjY2Vzc2Z1bGx5IHVucGFja2VkIGFuZCBNRDUgc3VtcyBjaGVja2VkXG5cblRoZSBkb3dubG9hZGVkIGJpbmFyeSBwYWNrYWdlcyBhcmUgaW5cblx0RTpcXFVzZXJzXFxTaHJ1dGlcXEFwcERhdGFcXExvY2FsXFxUZW1wXFxSdG1wQ2tMMkRLXFxkb3dubG9hZGVkX3BhY2thZ2VzXG4ifQ== -->
+<pre><code>package ‘minqa’ successfully unpacked and MD5 sums checked
+package ‘nloptr’ successfully unpacked and MD5 sums checked
+package ‘RcppEigen’ successfully unpacked and MD5 sums checked
+package ‘lme4’ successfully unpacked and MD5 sums checked
+package ‘SparseM’ successfully unpacked and MD5 sums checked
+package ‘MatrixModels’ successfully unpacked and MD5 sums checked
+package ‘pbkrtest’ successfully unpacked and MD5 sums checked
+package ‘quantreg’ successfully unpacked and MD5 sums checked
+package ‘DBI’ successfully unpacked and MD5 sums checked
+package ‘car’ successfully unpacked and MD5 sums checked
+package ‘ellipse’ successfully unpacked and MD5 sums checked
+package ‘flashClust’ successfully unpacked and MD5 sums checked
+package ‘leaps’ successfully unpacked and MD5 sums checked
+package ‘ggsci’ successfully unpacked and MD5 sums checked
+package ‘dplyr’ successfully unpacked and MD5 sums checked
+package ‘abind’ successfully unpacked and MD5 sums checked
+package ‘FactoMineR’ successfully unpacked and MD5 sums checked
+package ‘ggpubr’ successfully unpacked and MD5 sums checked
+package ‘ggrepel’ successfully unpacked and MD5 sums checked
+package ‘tidyr’ successfully unpacked and MD5 sums checked
+package ‘factoextra’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    E:\Users\Shruti\AppData\Local\Temp\RtmpCkL2DK\downloaded_packages</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShjbHVzdGVyKVxuYGBgIn0= -->
+<pre class="r"><code>library(cluster)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDjpLzjuLFjbHVzdGVy46S847iyIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gMy4zLjJcbiJ9 -->
+<pre><code>package 㤼㸱cluster㤼㸲 was built under R version 3.3.2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmYWN0b2V4dHJhKVxuYGBgIn0= -->
+<pre class="r"><code>library(factoextra)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDjpLzjuLFmYWN0b2V4dHJh46S847iyIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gMy4zLjJMb2FkaW5nIHJlcXVpcmVkIHBhY2thZ2U6IGdncGxvdDJcbnBhY2thZ2Ug46S847ixZ2dwbG90MuOkvOO4siB3YXMgYnVpbHQgdW5kZXIgUiB2ZXJzaW9uIDMuMy4yXG4ifQ== -->
+<pre><code>package 㤼㸱factoextra㤼㸲 was built under R version 3.3.2Loading required package: ggplot2
+package 㤼㸱ggplot2㤼㸲 was built under R version 3.3.2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNMdXN0ZXJpbmcgVW5zdXBlcnZpc2VkIE1hY2hpbmUgTGVhcm5pbmciDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCiNMb2FkIHRoZSBkYXRhDQpkYXRhKCJVU0FycmVzdHMiKQ0KbXlkYXRhIDwtIFVTQXJyZXN0cw0KDQojUmVtb3ZlIG1pc2luZyB2YWx1ZXMNCm15ZGF0YSA8LSBuYS5vbWl0KG15ZGF0YSkNCg0KI1NjYWxlIHRoZSB2YXJpYWJsZXMNCm15ZGF0YSA8LSBzY2FsZShteWRhdGEpDQoNCmhlYWQobXlkYXRhLCBuPTUpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkNMdXN0ZXJpbmcgVW5zdXBlcnZpc2VkIE1hY2hpbmUgTGVhcm5pbmciDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCiNMb2FkIHRoZSBkYXRhDQpkYXRhKCJVU0FycmVzdHMiKQ0KbXlkYXRhIDwtIFVTQXJyZXN0cw0KDQojUmVtb3ZlIG1pc2luZyB2YWx1ZXMNCm15ZGF0YSA8LSBuYS5vbWl0KG15ZGF0YSkNCg0KI1NjYWxlIHRoZSB2YXJpYWJsZXMNCm15ZGF0YSA8LSBzY2FsZShteWRhdGEpDQoNCmhlYWQobXlkYXRhLCBuPTUpDQpgYGANCmBgYHtyfQ0KI0ltcG9ydGluZyBwYWNrYWdlcyBmb3IgY2x1c3RlcmluZw0KDQojRm9yIGNsdXN0ZXJpbmcNCmluc3RhbGwucGFja2FnZXMoImNsdXN0ZXIiKQ0KDQojRm9yIHZpc3VhbGl6YXRpb24NCmluc3RhbGwucGFja2FnZXMoImZhY3RvZXh0cmEiKQ0KDQpsaWJyYXJ5KGNsdXN0ZXIpDQpsaWJyYXJ5KGZhY3RvZXh0cmEpDQpgYGANCg0K</div>
 
 
 

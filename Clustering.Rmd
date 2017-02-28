@@ -16,4 +16,16 @@ mydata <- scale(mydata)
 
 head(mydata, n=5)
 ```
+```{r}
+#Importing packages for clustering
+
+#For clustering
+install.packages("cluster")
+
+#For visualization
+install.packages("factoextra")
+
+library(cluster)
+library(factoextra)
+```
 
