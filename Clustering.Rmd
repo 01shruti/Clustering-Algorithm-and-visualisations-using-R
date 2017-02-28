@@ -17,6 +17,17 @@ mydata <- scale(mydata)
 head(mydata, n=5)
 ```
 ```{r}
+#Data preparation example
+
+set.seed(124)
+ss <- sample(1:50,10)
+df <- USArrests[ss, ]
+df <- na.omit(df)
+head(df,n=6)
+```
+
+
+```{r}
 #Importing packages for clustering
 
 #For clustering
@@ -27,5 +38,10 @@ install.packages("factoextra")
 
 library(cluster)
 library(factoextra)
+
+```
+
+```{r}
+
 ```
 
