@@ -258,3 +258,21 @@ fviz_cluster(pam.res) +
 #             frame = TRUE, frame.type = "convex")
 ```
 
+```{r}
+#Hierarchial Clustering
+
+data("USArrests")
+my_data <- scale(USArrests)
+
+d <- dist(my_data, method = "euclidean")
+res.hc <- hclust(d, method = "ward.D2")
+grp <- cutree(res.hc,k=4)
+plot(res.hc, cex = 0.6)
+rect.hclust(res.hc, k = 4, border = 2:5)
+
+
+library(factoextra)
+res <- hcut(USArrests, k = 4, stand = TRUE)
+fviz_dend(res, rect = TRUE, cex = 0.5, k_colors = c("Red", "Green", "Blue", "Yellow"))
+```
+
