@@ -276,3 +276,12 @@ res <- hcut(USArrests, k = 4, stand = TRUE)
 fviz_dend(res, rect = TRUE, cex = 0.5, k_colors = c("Red", "Green", "Blue", "Yellow"))
 ```
 
+```{r}
+#Clustering tendecy
+
+library("factoextra")
+my_data <- scale(iris[, -5])
+get_clust_tendency(my_data, n = 50,
+                   gradient = list(low = "steelblue",  high = "white"))
+```
+
