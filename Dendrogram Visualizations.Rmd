@@ -18,6 +18,9 @@ dd <- dist(scale(USArrests), method = "euclidean")
 
 hc <- hclust(dd, method = "ward.D2")
 
+#hang put labels at same height
+plot(hc, hang = -1, cex = 0.6)
+
 
 ```
 
