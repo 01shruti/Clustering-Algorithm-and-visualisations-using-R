@@ -34,22 +34,19 @@ head(round(df.scaled, 2))
 
 
 ```{r}
-#Importing packages for clustering
-
-#For clustering
-install.packages("cluster")
+#install.packages("cluster")
 
 #For visualization
-if(!require(devtools))
-  install.packages("devtools")
-devtools::install_github("kassambara/factoextra")
+#if(!require(devtools))
+#  install.packages("devtools")
+#devtools::install_github("kassambara/factoextra")
 
 #install.packages("factoextra")
 
-library(cluster)
-library(factoextra)
+#library(cluster)
+#library(factoextra)
 
-install.packages("corrplot")
+#install.packages("corrplot")
 ```
 
 ```{r}
@@ -71,7 +68,6 @@ head(desc_stats)
 
 ```{r}
 #Functions for computing distances
-
 #dist()#############################################################
 library(stats)
 eucl <- dist(df.scaled, method = "euclidean" )
