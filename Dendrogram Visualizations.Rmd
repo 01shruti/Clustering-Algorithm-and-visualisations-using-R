@@ -24,3 +24,24 @@ plot(hc, hang = -1, cex = 0.6)
 
 ```
 
+```{r}
+#Dendrogram 
+
+hcd <- as.dendrogram(hc)
+
+plot(hcd, type = "rectangle", ylab = "Height")
+
+plot(hcd, type = "triangle", ylab = "Height")
+
+#Customizing hcd plot
+
+nodepar <- list(lab.cex = 0.6, pch = c(NA, 19), cex = 0.7, col = "blue")
+
+plot(hcd, ylab = "Height", nodePar = nodepar, leaflab = "none", edgePar = list(col = 2:3, lwd = 2:1))
+
+#if we write horiz = TRUW then plot will be horizontal
+#edgepar to change color of branches
+
+
+```
+
