@@ -65,3 +65,17 @@ plot(as.phylo(hc), type = "cladogram", cex = 0.6,
 
 ```
 
+```{r}
+library(ggdendro)
+library(ggplot2)
+
+ggdendrogram(hc, theme_dendro = FALSE)
+
+dend <- as.dendrogram(hc)
+dend_data <- dendro_data(dend, type = "rectangle")
+names(dend_data)
+
+ggplot(dend_data$segments) + geom_segment(aes(x=x,y=y,xend=xend,yend=yend)) +
+  geom_text(data = dend_data$labels, aes(x,y,label = label), hjust=1, angle=90, size =3) + ylim(-3,15)
+```
+
