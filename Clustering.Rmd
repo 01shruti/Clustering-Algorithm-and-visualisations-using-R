@@ -379,3 +379,27 @@ fviz_gap_stat(gap_stat)
 
 ```
 
+```{r}
+#To choose appropriate clustering algo for your data
+
+library(clValid)
+
+intern <- clValid(my_data, nClust = 2:6, 
+              clMethods = c("hierarchical","kmeans","pam"),
+              validation = "internal")
+
+summary(intern)
+
+library(pvclust)
+set.seed(123)
+data("lung")
+ss <- sample(1:73,30)
+my_data2 <- lung[,ss]
+
+res.pv <- pvclust(my_data2, method.dist="cor", 
+                  method.hclust="average", nboot = 10)
+
+plot(res.pv, hang = -1, cex = 0.5)
+pvrect(res.pv)
+```
+
