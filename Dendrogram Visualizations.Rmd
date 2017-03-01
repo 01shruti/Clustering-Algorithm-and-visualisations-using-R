@@ -1,0 +1,23 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is for how to create great visualizations in R for clstering
+
+```{r}
+#Loading Data
+
+data("USArrests")
+
+#compute dissimilarity matrix
+
+dd <- dist(scale(USArrests), method = "euclidean")
+
+#Hierarchial Clustering
+
+hc <- hclust(dd, method = "ward.D2")
+
+
+```
+
