@@ -45,3 +45,23 @@ plot(hcd, ylab = "Height", nodePar = nodepar, leaflab = "none", edgePar = list(c
 
 ```
 
+```{r}
+#Phylogenetic Trees
+
+library(ape)
+
+plot(as.phylo(hc), cex = 0.6, type = "fan", label.offset = 0.5)
+#Type can be cladogram, unrooted, fan, radial or phylogram : default is phylogram
+
+#cut dendrogram into 4 clusters
+colors = c("red", "blue", "green", "black")
+clus4 = cutree(hc,4)
+plot(as.phylo(hc), type = "fan", tip.color = colors[clus4], label.offset = 1, cex = 0.7)
+
+
+plot(as.phylo(hc), type = "cladogram", cex = 0.6,
+     edge.color = "steelblue", edge.width = 2, edge.lty = 2,
+     tip.color = "steelblue")
+
+```
+
