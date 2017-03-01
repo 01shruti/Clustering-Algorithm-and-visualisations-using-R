@@ -234,3 +234,27 @@ clarax <- clara(x,2,samples=50)
 plot(silhouette(clarax), col = 2:3)
 ```
 
+```{r}
+#Visualization examples
+
+set.seed(123)
+# K-means clustering
+km.res <- kmeans(scale(USArrests), 4, nstart = 25)
+# Use clusplot function
+library(cluster)
+clusplot(scale(USArrests), km.res$cluster,  main = "Cluster plot",
+         color=TRUE, labels = 2, lines = 0)
+
+fviz_cluster(pam.res, frame.type = "t",
+             frame.alpha = 0, frame.level = 0.7)
+
+fviz_cluster(pam.res) + 
+  scale_color_brewer(palette = "Set2")+
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal()
+
+#fviz_cluster(object, data = NULL, stand = TRUE,
+#             geom = c("point", "text"), 
+#             frame = TRUE, frame.type = "convex")
+```
+
