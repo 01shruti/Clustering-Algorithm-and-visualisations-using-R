@@ -211,3 +211,26 @@ sil[neg_sil,,drop = FALSE]
 ```
 
 
+```{r}
+#CLARA (Clustering LArge Applications)
+#Algorithm : 
+#Split randomly the data sets in multiple subsets with fixed size
+#Compute PAM algorithm on each subset and choose the corresponding k representative objects (medoids). Assign each observation of the entire dataset to the nearest medoid.
+#Calculate the mean (or the sum) of the dissimilarities of the observations to their closest medoid. This is used as a measure of the goodness of the clustering.
+#Retain the sub-dataset for which the mean (or sum) is minimal. A further analysis is carried out on the final partition.
+
+set.seed(1234)
+
+#Generate 500 objects divided into 2 clusters
+x <- rbind(cbind(rnorm(200,0,8), rnorm(200,0,8)),
+           cbind(rnorm(300,50,8),rnorm(300,50,8)))
+
+head(x)
+
+#compute Clara
+
+clarax <- clara(x,2,samples=50)
+#fviz_cluster(clarax)
+plot(silhouette(clarax), col = 2:3)
+```
+
