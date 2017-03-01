@@ -139,3 +139,23 @@ ggplot(ggd1, labels = TRUE) +
 
 ```
 
+```{r}
+#pvclust
+
+library(pvclust)
+
+data(lung)
+set.seed(1234)
+result <- pvclust(lung[1:100, 1:10], method.dist="cor", 
+                  method.hclust="average", nboot=10)
+
+plot(result)
+pvrect(result)
+
+result %>% as.dendrogram %>% 
+  set("branches_k_color", k = 2, value = c("purple", "orange")) %>%
+  plot
+result %>% text
+result %>% pvrect
+```
+
