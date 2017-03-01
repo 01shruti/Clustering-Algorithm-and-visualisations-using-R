@@ -285,3 +285,97 @@ get_clust_tendency(my_data, n = 50,
                    gradient = list(low = "steelblue",  high = "white"))
 ```
 
+```{r}
+#Finding optimal number of clusters
+
+library(NbClust)
+data("iris")
+iris.scaled <- scale(iris[,-5])
+
+## K means method
+set.seed(123)
+km_res <- kmeans(iris.scaled,3,nstart=25)
+km_res$cluster
+
+fviz_cluster(km_res,data=iris.scaled,geom="point", stand = FALSE, frame.type = "norm")
+
+library(cluster)
+
+##PAM cluster method
+
+pam_res <- pam(iris.scaled, 3)
+fviz_cluster(pam_res, stand = FALSE, geom="point", frame.type = "norm")
+
+##Hierarchial Cluster
+dist_res <- dist(iris.scaled, method = "euclidean")
+h_c <- hclust(dist_res, method = "ward.D2")
+plot(h_c, labels = FALSE, hang = -1)
+rect.hclust(h_c, k = 3, border = 2:4)
+
+h_c.cut <- cutree(h_c, k = 3)
+head(h_c.cut, 20)
+
+############### Elbow Method for k means clustering #####################
+set.seed(123)
+k.max <- 15
+data <- iris.scaled
+wss <- sapply(1:k.max, 
+              function(k){kmeans(data,k,nstart=10)$tot.withinss})
+
+plot(1:k.max, wss,
+     type = "b", pch = 19, frame = FALSE)
+abline(v = 3, lty = 2)
+
+fviz_nbclust(iris.scaled, kmeans, method = "wss") + geom_vline(xintercept = 3, linetype = 2)
+
+
+############### Elbow Method for PAM clustering #####################
+fviz_nbclust(iris.scaled, pam, method = "wss") + geom_vline(xintercept = 3, linetype = 2)
+
+############### Elbow Method for hierarchial clustering #####################
+fviz_nbclust(iris.scaled, hcut, method = "wss") + geom_vline(xintercept = 3, linetype = 2)
+
+############### Average Silhouette Method for k means clustering#################
+
+sil <- rep(0, k.max)
+# Compute the average silhouette width for 
+# k = 2 to k = 15
+
+for(i in 2:k.max){
+  km.res <- kmeans(data, centers = i, nstart = 25)
+  ss <- silhouette(km.res$cluster, dist(data))
+  sil[i] <- mean(ss[, 3])}
+
+# Plot the  average silhouette width
+plot(1:k.max, sil, type = "b", pch = 19, 
+     frame = FALSE, xlab = "Number of clusters k")
+abline(v = which.max(sil), lty = 2)
+
+fviz_nbclust(iris.scaled, kmeans, method = "silhouette")
+fviz_nbclust(iris.scaled, pam, method = "silhouette")
+fviz_nbclust(iris.scaled, hcut, method = "silhouette", hc_method = "complete")
+
+
+##############Gap Statistic method ##################################
+
+gap_stat <- clusGap(iris.scaled, FUN = kmeans, nstart = 25,
+                    K.max = 10, B = 50)
+# Print the result
+print(gap_stat, method = "firstmax")
+
+plot(gap_stat, frame = FALSE, xlab = "Number of clusters k")
+abline(v = 3, lty = 2)
+
+fviz_gap_stat(gap_stat, 
+          maxSE = list(method = "Tibs2001SEmax", SE.factor = 2))
+
+gap_stat <- clusGap(iris.scaled, FUN = pam, K.max = 10, B = 50)
+# Plot gap statistic
+fviz_gap_stat(gap_stat)
+
+gap_stat <- clusGap(iris.scaled, FUN = hcut, K.max = 10, B = 50)
+# Plot gap statistic
+fviz_gap_stat(gap_stat)
+
+```
+
