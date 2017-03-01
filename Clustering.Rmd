@@ -184,4 +184,30 @@ aggregate(USArrests, by = list(cluster=kmean$cluster), mean)
 fviz_cluster(kmean , data = dataf)
 ```
 
+```{r}
+#Partitioning around medoids method(k-mediods)
+#The pam algorithm is based on the search for k representative objects or medoids among the observations of the dataset. These observations should represent the structure of the data. After finding a set of k medoids, k clusters are constructed by assigning each observation to the nearest medoid. The goal is to find k representative objects which minimize the sum of the dissimilarities of the observations to their closest representative object.
+
+
+library(cluster)
+library(fpc)
+
+data("USArrests")
+pam.res <- pam(scale(USArrests),4)
+
+pam.res$medoids
+
+head(pam.res$cluster)
+clusplot(pam.res, color= TRUE)
+fviz_cluster(pam.res)
+
+plot(silhouette(pam.res), col = 2:5)
+fviz_silhouette(silhouette(pam.res))
+
+#computing silhouette
+sil <- silhouette(pam.res)[,1:3]
+neg_sil <- which(sil[,'sil_width'] < 0)
+sil[neg_sil,,drop = FALSE]
+```
+
 
