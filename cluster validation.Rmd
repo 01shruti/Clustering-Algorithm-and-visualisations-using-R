@@ -1,0 +1,39 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Cluster Validation
+
+```{r}
+library(factoextra)
+library(clustertend)
+library(seriation)
+
+data("faithful")
+df3 <- faithful
+
+ggplot(df3, aes(x=eruptions,y=waiting)) + geom_point() + geom_density_2d()
+```
+
+```{r}
+#Random dataset
+
+set.seed(123)
+n <- nrow(df3)
+random_df <- data.frame(
+              x = runif(nrow(df3), min(df3$eruptions), max(df3$eruptions)),
+              y = runif(nrow(df3), min(df3$waiting), max(df3$waiting)))
+ggplot(random_df, aes(x,y)) + geom_point()
+
+km.res1 <- kmeans(df3,2)
+fviz_cluster(list(data = df3, cluster = km.res1$cluster),
+             frame.type = "norm", geom = "point", stand = FALSE)
+
+km.res2 <- kmeans(random_df,2)
+fviz_cluster(list(data = random_df, cluster = km.res2$cluster),
+             frame.type = "norm", geom = "point", stand = FALSE)
+
+fviz_dend(hclust(dist(random_df)), k = 2,  cex = 0.5)
+```
+
